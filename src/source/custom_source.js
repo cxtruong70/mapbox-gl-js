@@ -259,14 +259,7 @@ class CustomSource<T> extends Evented implements Source {
         const signal = controller.signal;
 
         const request = this._implementation.loadTile({x, y, z}, {signal});
-        if (!request) {
-            // Create an empty image and set the tile state to `loaded`
-            // if the implementation didn't return the async tile request
-            const emptyImage = {width: this.tileSize, height: this.tileSize, data: null};
-            this.loadTileData(tile, (emptyImage: any));
-            tile.state = 'loaded';
-            return callback(null);
-        }
+        if (!request) return tileLoaded.call(this, null);
 
         // $FlowFixMe[prop-missing]
         request.cancel = () => controller.abort();
@@ -289,11 +282,6 @@ class CustomSource<T> extends Evented implements Source {
             }
 
             if (!data) {
-                // Create an empty image and set the tile state to `loaded`
-                // if the implementation returned no tile data
-                const emptyImage = {width: this.tileSize, height: this.tileSize, data: null};
-                this.loadTileData(tile, (emptyImage: any));
-                tile.state = 'loaded';
                 return callback(null);
             }
 
