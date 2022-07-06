@@ -120,16 +120,12 @@ test('CustomSource', (t) => {
         });
 
         const {source, sourceCache, eventedParent} = createSource(t, {loadTile});
-
-        source.loadTileData.callsFake((tile, actualData) => {
-            const expectedData = {width: source.tileSize, height: source.tileSize, data: null};
-            t.deepEqual(actualData, expectedData, 'loadTileData must be called with the empty image if loadTile returns null');
-        });
+        source.loadTileData.callsFake(() => {});
 
         eventedParent.on('data', (e) => {
             if (e.dataType === 'source' && e.tile) {
-                t.ok(loadTile.calledOnce, 'loadTile must be called');
-                t.equal(source.loadTileData.callCount, 1);
+                t.ok(loadTile.calledOnce, 'loadTile must not be called if loadTile resolves to null');
+                t.equal(source.loadTileData.callCount, 0);
                 t.end();
             }
         });
@@ -149,16 +145,12 @@ test('CustomSource', (t) => {
         });
 
         const {source, sourceCache, eventedParent} = createSource(t, {loadTile});
-
-        source.loadTileData.callsFake((tile, actualData) => {
-            const expectedData = {width: source.tileSize, height: source.tileSize, data: null};
-            t.deepEqual(actualData, expectedData, 'loadTileData must be called with the empty image if loadTile resolves to null');
-        });
+        source.loadTileData.callsFake(() => {});
 
         eventedParent.on('data', (e) => {
             if (e.dataType === 'source' && e.tile) {
-                t.ok(loadTile.calledOnce, 'loadTile must be called');
-                t.equal(source.loadTileData.callCount, 1);
+                t.ok(loadTile.calledOnce, 'loadTile must not be called if loadTile resolves to null');
+                t.equal(source.loadTileData.callCount, 0);
                 t.end();
             }
         });
