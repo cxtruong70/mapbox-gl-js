@@ -282,6 +282,8 @@ class CustomSource<T> extends Evented implements Source {
             }
 
             if (!data) {
+                // mark the tile as `errored` to indicate that we have no data for it
+                tile.state = 'errored';
                 return callback(null);
             }
 
