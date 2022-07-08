@@ -5,7 +5,7 @@ uniform sampler2D u_shadowmap_1;
 uniform float u_shadow_intensity;
 uniform float u_texel_size;
 uniform vec2 u_cascade_distances;
-uniform vec3 u_shadow_direction;
+uniform highp vec3 u_shadow_direction;
 uniform highp vec3 u_shadow_bias;
 
 highp float shadow_sample_1(highp vec2 uv, highp float compare) {
